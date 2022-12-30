@@ -78,7 +78,8 @@ It transmits raw bits over the communication channel, manages connection initiat
 #### a) Where is the data link layer implemented?
 In the network interface card (NIC).
 
-#### ~~b) Draw a block diagram to show the relationship of a network adapter to other host components and the protocol stack functionality.~~
+#### b) Draw a block diagram to show the relationship of a network adapter to other host components and the protocol stack functionality.
+![](README.d/ass2-prob2-protocol-stack.png)
 
 #### c) (1.) Why is flow control needed in the DLL? (2.) Describe two types of control flow.
 1. It's needed to avoid overwhelming one of the communicating nodes with data, especially if they're operating at different speeds.
