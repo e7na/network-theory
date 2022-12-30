@@ -162,28 +162,4 @@ It ensures that sender and receiver clocks stay in sync.
 - Ad-hoc networks are a group of 802.11 stations that group themselves together to form a network  with no central control or connections to other networks.
 
 #### b) Explain how the 802.11 media access protocol can reserve access to a channel, and draw a schematic diagram to show the steps used to transmit data.
-<table>
-<tr>
-</tr>
-<tr>
-<td>
 
-</td>
-<td>
-
-```mermaid
-sequenceDiagram
-
-Alice->>John: Hello John, how are you?
-loop Healthcheck
-    John->>John: Fight against hypochondria
-end
-Note right of John: Rational thoughts!
-John-->>Alice: Great!
-John->>Bob: How about you?
-Bob-->>John: Jolly good!
-```
-
-</td>
-</tr>
-</table>
