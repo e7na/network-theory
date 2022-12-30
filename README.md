@@ -58,7 +58,21 @@ The layered architecture is an abstraction of the network that helps us understa
 #### c) What are the main functions of the physical layer?
 It transmits raw bits over the communication channel, manages connection initiation and termination, and defines the electrical specifications of the physical medium.
 
-#### ~~d) Suppose that node A wants to send data to node B. Outline how encapsulation is done as the data is moved between different layers at nodes A and B~~
+#### d) Suppose that node A wants to send data to node B. Outline how encapsulation is done as the data is moved between different layers at nodes A and B
+```
+[A]                        [B]
+---------------------      --------------------
+|  Application  🡫   |     |   🡫  Application  |        
+---------------------      --------------------
+|  Transport    🡫 🡩 |     | 🡩 🡫  Transport    |      
+---------------------      --------------------
+|  Network      🡫 🡩 |     | 🡩 🡫  Network      |    
+---------------------      --------------------
+|  Link         🡫 🡩 |     | 🡩 🡫  Link         | 
+---------------------      --------------------
+|  Physical       🡩 |<--->| 🡩    Physical     |       
+---------------------      --------------------
+```
 
 ### Problem 3
 #### a) Where is the data link layer implemented?
