@@ -226,4 +226,77 @@ max delay = (900\*8 bits) / (24\*10^5 bits/sec) = 0.003 sec
 The switch table is built automatically as follows:
 - It's initially empty
 - When a frame arrives on one of the interfaces and its destination isn't in the table, the switch forwards copies of the frame on all its interfaces except the one it arrived on.
-- for each frame successfully received, the switch stores in its table the source LAN address, the interface on which the frame arrived and the current time.
+- for each frame received, the switch stores in its table the source LAN address, the interface on which the frame arrived and the current time.
+
+## Assignment 4
+### Problem 1
+#### a) How many collision domains are there in the network? List the collision domains and explain your answer.
+![](README.d/ass4-prob1-topology.png)
+
+There are 3 collision domains: {r,n}, {s,n}, and {p,q,k,t,u,j,h,n,G}
+All devices are in subnetworks of the same router, and are all connected by hubs except for r, and which are connected by a switch; Hubs combine collision domains, and switches keep them separate.
+
+#### b) If host p uses 10BaseT Ethernet, do hosts {q,r,s,t,u} also have to use 10BaseT Ethernet? Explain your answer.
+No, only hosts {q,t,u} have to use 10BaseT Ethernet, because nodes {r,s} are separated from p by a switch, which is a layer-2 device capable of translating between different ethernet technologies.
+
+#### c) (1.) Explain how the switch table of n is built. ~~(2.) Write down the table assuming recent communication between all other nodes.~~
+- The table is initially empty
+- When a frame arrives on one of the interfaces and its destination isn't in the table, the switch forwards copies of the frame on all its interfaces except the one it arrived on.
+- for each frame received, the switch stores in its table the source LAN address, the interface on which the frame arrived and the current time.
+
+### Problem 2
+#### a) What are the main functions of (1.) the data plane and (2.) the control plane?
+1. The control plane defines how packets are forwarded; Routing table creation is part of the control plane.
+1. The data plane is the processes that actually forward the packets in accordacne with the control plane.
+
+#### b) What is the difference between switching and routing?
+Switching connects multiple devices on the same network, while routing connects multiple networks together.
+Switches just connect devices together, but routers work at the network layer to find the shortest path for a packet across the networks.
+
+#### c) What are the characteristics of the network service model?
+It defines the properties of the channel connecting the transport layers of two communicating hosts, in terms of:
+   - Service reliability
+   - Received packets ordering compared to transmitted
+   - Time between two consecutive sent or received packets
+   - Network congestion feedback
+
+### Problem 3
+#### a) Draw a block diagram showing the router's architecture.
+![](README.d/ass4-prob3-route-arch.png)
+
+#### b) What are the advantages and disadvantages of different types of switching fabrics?
+| fabric type     | advantages | disadvantages |
+|-----------------|------------|---------------|
+| bus             | No processor intervention | - forwards only one packet at a time </br> - all packets are queued when the bus is busy |
+| interconnection | - minimal processor intervention</br> - less idle time than a single bus | - more busses are used (2N busses to connect N ports)</br> - non-zero processing and idle time |
+| memory          | The most reliable method with flexible scheduling modes | - control happens fully in CPU</br> - packets are copied instead of forwarded which is slower and less efficient |
+
+#### c) Describe how the routing table entries are stored, and explain its effect on the processing time.
+The are stored as entries pointing the next hop required to reach a destination IP, as well as the No. of hops till this IP is reached. This allows them to be stored as binary tress where closer together routers (with similar IP addresses or in subnetworks of the same WAN) are grouped together in a subtree and are searchable in O(n) time.
+
+#### d) Explain how a queue could build up at both the input ports and the output ports of a router.
+- Input queueing can occur when:
+   - the switching fabric is slower than the rate at which input packets are received.
+   - multiple packets at the input ports are destined to the same output poty
+   - a packet at an input id destined to an empty output port, but is preceded by another packet destined to a busy one, which is known as Head-of-Line blocking.
+- Output queueing can occur when:
+   - multiple input packets are destined to a single output port
+   - the switching fabric is slower than the incoming traffic.
+
+#### e) What is Head-of-Line blocking? What scenario will lead to it?
+It's when a packet is queued at an input port despite being destined to a an empty output port. It happens only in the case of input buffering when a packet is preceded by a another on the same input port that is waiting on a busy output port.
+
+### Problem 4
+#### a) What is the maximum numbers that can be used with each class of IPv4?
+Class A: 2<sup>7</sup>,
+Class B: 2<sup>14</sup>,
+Class C: 2<sup>21</sup>,
+Class D: 2<sup>28</sup>
+#### b) What are the address types of IPv6?
+Unicast, anycast and multicast.
+
+#### c) What is the advantage of the tunneling approach over the dual stack approach when transistioning from IPv4 to IPv6? Give an example to explain your answer.
+Tunneling maintains all the information in an IPv6 packet headerm such as the flow label, which is a new header field that dual stack transmission would strip away.
+
+#### ~~d)~~
+### ~~Problem 5~~
