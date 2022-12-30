@@ -161,5 +161,21 @@ It ensures that sender and receiver clocks stay in sync.
 - Infrastructure networks are 802.11 networks where all devices connect to each other (and maybe the internet) through a single access point
 - Ad-hoc networks are a group of 802.11 stations that group themselves together to form a network  with no central control or connections to other networks.
 
+<table border="0"><tr><td>
+
 #### b) Explain how the 802.11 media access protocol can reserve access to a channel, and draw a schematic diagram to show the steps used to transmit data.
+It uses RTS and CTS frames where the RTS frame is sent to the receiver and is heard by all devices in its vicinity, and if no collisions or fading occur to it, access to the receive is reserved and it sends back a CTS frame.
+
+#### c) In 802.11 MAP, explain (1.) when DIFS and SIFS are used. (2.) Which one is longer and why?
+1. DIFS is used before the very first transmission. SIFS is used after initiation, in connections subsequent to the first.
+1. DIFS is longer because:
+   - it's used to sense the readiness of a completely opaque station
+   - to give higher priority to previously established connections over new attempts.
+
+#### d) Explain how the hidden station problem can be avoided.
+RTS frames are sent to be detected in the receivers vicinity, if a hidden station exists collisions will occur with this RTS frame, so no CTS frames will be sent back and no connection will be established.
+</td><td>
+
+![rts/cts/difs/sifs](README.d/2022-12-30-17-04-40.png)
+</td></tr></table>
 
