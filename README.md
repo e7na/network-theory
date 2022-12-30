@@ -100,11 +100,13 @@ In the network interface card (NIC).
    - disadvantages:
       - has a single point of failure, where if the node holding the token fails, the whole ring fails.
   
-#### b) (1.) Explain the Slotted-Aloha protocol. ~~(2.) If there are 4 nodes willing to transmit their frames, draw a sketch that illustrates the disadvantages of Slotted-Aloha.~~
-It's a data link layer protocol for frame transmission where:
+#### b) (1.) Explain the Slotted-Aloha protocol. (2.) If there are 4 nodes willing to transmit their frames, draw a sketch that illustrates the disadvantages of Slotted-Aloha.
+1. It's a data link layer protocol for frame transmission where:
    - frames are split into slots smaller than teh frame size
    - all the nodes attempt to transmit data at the beginning of a slot
    - if a collision is detected, all the colliding nodes wait a random period of time then attempt to transmit again
+1. The notation C, E and S represent a collision, an empty slot and a successful transmission, respectively.
+   ![](README.d/ass2-prob4-aloha.png)
 
 ### ~~Problem 5~~
 
@@ -176,6 +178,6 @@ It uses RTS and CTS frames where the RTS frame is sent to the receiver and is he
 RTS frames are sent to be detected in the receivers vicinity, if a hidden station exists collisions will occur with this RTS frame, so no CTS frames will be sent back and no connection will be established.
 </td><td>
 
-![rts/cts/difs/sifs](README.d/2022-12-30-17-04-40.png)
+![rts/cts/difs/sifs -  sequence diagram](README.d/ass3-prob3-seq.png)
 </td></tr></table>
 
