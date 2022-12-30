@@ -155,9 +155,12 @@ It's a connectionless service that provides best effort delivery of frames, and 
    - It's blind to the data it transmits:
       - It doesn't detect gaps in the data
       - Or recognize retransmissions
-#### e) Why does Ethernet use Manchester encoding? ~~If the bit stream is [11000110], draw a sketch to show how this stream is encoded.~~
-It ensures that sender and receiver clocks stay in sync.
-
+#### e) (1.) Why does Ethernet use Manchester encoding? (2.) If the bit stream is [11000110], draw a sketch to show how this stream is encoded.
+1. It ensures that sender and receiver clocks stay in sync.
+1. Baseband: 
+![](README.d/ass3-prob2-baseband.png)
+Manchester encoding:
+![](README.d/ass3-prob2-manchester.png)
 ### Problem 3
 #### a) What is the difference between an infrastructure network and an ad-hoc network?
 - Infrastructure networks are 802.11 networks where all devices connect to each other (and maybe the internet) through a single access point
