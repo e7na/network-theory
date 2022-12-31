@@ -386,9 +386,6 @@ It's the union of all the shortest paths towards a destination in a graph. Since
    - used in large networks.
 </td></tr></table>
 
-| RIP | IGRP |
-|-----|------|
-|  |  |
 ### ~~Problem 2~~
 ### Problem 3
 #### ~~a)~~
