@@ -265,11 +265,41 @@ It defines the properties of the channel connecting the transport layers of two 
 ![](README.d/ass4-prob3-route-arch.png)
 
 #### b) What are the advantages and disadvantages of different types of switching fabrics?
-| fabric type     | advantages | disadvantages |
-|-----------------|------------|---------------|
-| bus             | No processor intervention | - forwards only one packet at a time </br> - all packets are queued when the bus is busy |
-| interconnection | - minimal processor intervention</br> - less idle time than a single bus | - more busses are used (2N busses to connect N ports)</br> - non-zero processing and idle time |
-| memory          | The most reliable method with flexible scheduling modes | - control happens fully in CPU</br> - packets are copied instead of forwarded which is slower and less efficient |
+
+<table><tr><th>
+   fabric type
+   </th><th>
+   advantages
+   </th><th>
+   disadvantages
+</th></tr><tr><td>
+   bus
+   </td><td>
+   No processor intervention
+   </td><td>
+
+   - forwards only one packet at a time
+   - all packets are queued when the bus is busy
+</td></tr><tr><td>
+   interconnection
+   </td><td>
+
+   - minimal processor intervention
+   - less idle time than a single bus 
+   </td><td>
+
+   - more busses are used (2N busses to connect N ports)
+   - non-zero processing and idle time
+</td></tr><tr><td>
+   memory
+   </td><td>
+
+   - The most reliable method with flexible scheduling modes
+   </td><td>
+
+   - control happens fully in CPU
+   - packets are copied instead of forwarded which is slower and less efficient
+</td></tr></table>
 
 #### c) Describe how the routing table entries are stored, and explain its effect on the processing time.
 The are stored as entries pointing the next hop required to reach a destination IP, as well as the No. of hops till this IP is reached. This allows them to be stored as binary tress where closer together routers (with similar IP addresses or in subnetworks of the same WAN) are grouped together in a subtree and are searchable in O(n) time.
