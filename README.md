@@ -300,3 +300,97 @@ Tunneling maintains all the information in an IPv6 packet headerm such as the fl
 
 #### ~~d)~~
 ### ~~Problem 5~~
+
+## Assignment 5
+### Problem 1
+#### a) What is the difference between static and dynamic routing?
+- static routing is when administrators manually configure the routing tables with one entry for each destination.
+- dynamic routing is a means of adaptive routing where multiple possible routes are computed ans the best path for traffic is determined through the network.
+  
+#### b) What is the difference between centralized and decentralized routing algorithms?
+- centralized routing algorithms are routing algorithms that use the complete information about link costs and connectivity to determine the minimum cost paths between two nodes.
+- decentralized algorithms are an iterative process of calculation and information exchange where no node has complete information about all link costs, but only the links attached to it.
+
+#### c) What is the sink tree? How is it related to routing?
+It's the union of all the shortest paths towards a destination in a graph. Since the sink tree defines all the optimal paths between the nodes in a network, it's the goal of routing algorithms to compute the sink trees for all routers and use them.
+
+#### d) Explain the types of routers used with the OSPF hierarchial routing.
+<table border="0"><tr><td>
+
+- Boundary routers: routers that exchange data with routers from other AS's
+- Internal routers: non-backbone routers that perform intra-AS routing
+- Area border routers: routers that both belong to an area and to the backbone.
+- Backbone routers: routers that perform routing at the backbone but aren't area border or boundary routers.
+</td><td>
+
+![](README.d/ass5-prob1-ospf.png)
+</td></tr></table>
+
+#### e) What is the difference between RIP and the IGRP routing protocols?
+| RIP | IGRP |
+|-----|------|
+| - uses hop counts as a metric</br> - updates regularly over a constant period</br> - suitable for small networks | - communicates routing info. over reliable transport</br> - only sends updates messages when link costs change</br> - uses distributed diffusing update to compute loop-free routes quickly </br> - uses bandwidth as a metric</br> - used in large networks. |
+### ~~Problem 2~~
+### Problem 3
+#### ~~a)~~
+#### ~~b)~~
+#### c) Consider link cost between B and C is changed from 3 to 50:
+##### ~~(1.) From the distance tables in (b), write down the new distance tables at A and B~~
+##### (2.) Explain how the count-to-infinity problem will affect A and B.
+A believes that the optimal route to C is going through B, while B believes that the optimal route to C is through A. So when one of the two hosts tries to send a packet to C, the other will transmit it back to sender and update the path cost adding 1 to it, resulting in a single packet being forwarded at least 4<!--(AC - BC) / AB = (7 - 3) / 1 = 4--> times in a loop before the path is updated with the correct link costs, and the packet reaches its destination.
+##### (3.) Explain how to solve the count-to-infinity problem in A and B.
+Using poisoned reverse: when A attempts to route through B to get to C, then B attempts to route through A to get to C, A will advertise to B that the cost to C through it is infinity, forcing B to send directly to C advertising the new C cost leading to the appropriate distance vector updates in each node.
+
+#### ~~d)~~
+
+### ~~Problem 4~~
+
+## Assignment 6
+### Problem 1
+#### ~~a)~~
+#### ~~b)~~
+#### ~~c)~~
+#### ~~d) 18 interfaces, 7 route tables.~~
+#### e) Explain how host s can get inform ation about the route to host r using traceroute.
+Using packet drop feedback, where dummy packets are sent with incremental TTLs so that the first packet with TTL=1 is dropped by the first router, making that router send back a message identifying it as the first in the path, then the second packet with TTL=2 is dropped by the second router which similarly returns feedback identifying it as the second, and so on until the packet reaches its destination.
+
+### ~~Problem 2~~
+### Problem 3
+#### Suppose that you have routers running a BGP protocol, if router A receives ana updated path of BTWXYN from router B, explain the cases when (1.) the path will be added to the routing table, and (2.) the path will not be added to the routing table.
+The route will:
+   1. be added to the table if A isn;t one of the pre-existing {T,W,X,Y,N} routers and the route is the most preferable one according to router A's defined routing and security policies.
+   1. not be added if 
+      - a preferable path is determined by A
+      - A has a policy not to route packets through on of the routers in the path
+      - A is the same as one of the pre-existing routers {T,W,X,Y,N}
+
+### Problem 4
+#### a) Explain the internet group management protocol (IGMP) message types.
+- Membership query - general: sent on an interfaces to determine the set of all multicast groups that have members on that interface.
+- Membership query - specific: contains the multicast address of a group and is sent on an interface th determine if that specific group has members on that interface.
+- Membership report: sent by a host as a response to a membership query to indicate that it's a member of a group, or when the host first joins a group, and is received by the router as well as all the hosts on the same interface.
+- Leave group message: an optional message sent by hosts when they leave a multicast group to allow the router to determine that no hosts are remaining in the group without using a delay or a timeout. The router can infer that no hosts are remaining in a group when it receives no responses to a membership query message with that group's address, but this typically takes a an entire second.
+
+#### b) What is feedback suppression? Why is it used?
+It's the consolidation of responses arising from a group of hosts as feedback to a single query message, where if a host observes a response from another host in the same group, it discards its own pending membership report to avoid or reduce network congestion resulting from redundant responses, especially since multicast groups are set to scale very large.
+
+#### c) What is the difference between multicast via unicast and network multicast?
+<table><tr><th>
+   Network multicast
+   </th><td>
+      - requires network-layer support for its implementation</br>
+      - relies on routers replicating each packet that needs to be sent over multiple links</br>
+      - the sending host transmits a single packet and only one copy of each packet will ever traverse a link</br>
+</td></tr><tr><th>
+   Multicast via unicast
+   </th><td>
+      The sender uses a separate unicast connection to each of the receivers, resulting in a lot of message duplication over the network links.
+</td></tr></table>
+
+#### d) What is address indirection in network multicast?
+A single class D IP address is used as an identifier to a group of hosts, and a copy of a datagram addressed to this identifier is delivered to all of the receivers associated with the group.
+
+#### e) What is the objective of the group-shared tree and the source-based tree?
+- Group-shared tree:
+Finding a tree within the network that has the minimum cost and connects all the routers with attached hosts belonging to the mcast group.
+- Source-based tree: Finding the least unicast-cost tree from every host in the group to every other one. This means that routing occurs in a source-specific manner and an individual routing tree is constructed for each host.
