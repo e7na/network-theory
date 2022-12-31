@@ -722,3 +722,46 @@ If the router’s interface in X’s LAN isn’t targeted by the packet’s DLL 
 - They reduce response times for users, since they're selected geographically to be closer than the origin server.
 - They reduce the load on the origin (usually popular/central) servers by offloading the requests going to them.
 - They provide the infrastructure for rapid content distribution networks.
+
+### ~~Problem 2~~
+### Problem 3
+#### a) Draw a sketch to show the components of the Internet mail system.
+![](README.d/2022-12-31-18-31-11.png)
+
+#### b) Explain the difference between sending and receiving an email using a mail user agent and using a browser-based email service. In your answer include the protocol used in each case.
+<table><tr><th>
+   mail user agent
+   </th><td>
+
+   - A sender composes a message, its mail user agents sends the message to its mail server over SMTP, where the message is placed in the outgoing message queue
+   - The message is pushed by SMTP from the sender's mail server to the client's
+   - The recipient user agent obtains the message from its mailbox on the mail server using a pull protocol, such as POP3 or IMAP
+   </td></tr><tr><th>
+   browser user agent
+   </th><td>
+
+   - The user agent is an ordinary Web browser and the user communicates with its mailbox in the server via HTTP
+   - When a sender wants to send a message, the message is sent from the sender’s browser to its mail server over HTTP
+   - When a recipient wants to access the messages in its mailbox, the messages are sent from recipient’s mail server to its browser using HTTP
+   - The mail server exchanges messages with other mail servers over SMTP like normal
+</td></tr></table>
+
+#### c) (1.) What does it mean that HTTP is a stateless protocol? (2.) What is the advantage of a stateless protocol? (3.) Mention a protocol that is NOT stateless, and explain why it's not stateless.
+1. It doesn't maintain any state information about the client or the server between requests.
+1. A stateless protocol avoids the overhead that comes with storing and processing state information, allowing for a the maintenance of a large number of concurrent connections.
+1. FTP is a stateful protocol, because the client establishes an authenticated control connection that spans multiple requests and data transfers throughout the session.
+
+#### d) Explain how a browser can get the IP address from a URL
+– The browser extracts the hostname from the URL and passes it to the DNS client
+– The DNS client sends a query containing the hostname to a DNS server
+– The DNS client eventually receives a reply that includes the IP address for the hostname
+
+#### e) (1.) What services does the DNS provide? (2.) Explain how DNS is used for load distribution among duplicate servers.
+1. 
+   1. Mapping between hostnames and IP addresses
+   1. Host aliasing: some hosts can have one or more alias hostnames
+   1. Load distribution among duplicate servers
+1. 
+   - Sites are replicated over multiple servers with each server running on a different end system, and having a different IP address
+   - When clients make a DNS query for a name mapped to a set of addresses, the server responds with the entire set of IP addresses, but rotates the ordering of the addresses with each reply.
+   - A client typically sends its HTTP request message to the first listed IP address, resulting in the load being distributed among the servers.
