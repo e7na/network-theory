@@ -510,12 +510,12 @@ suppose the data field is ```1111 1110 1110 1101 1101 1110 1010 1101 1011 1110 1
    ```1111 1110 1110 1101``` +  
    ```1101 1110 1010 1101``` +   
    ```1011 1110 1110 1111``` +   
-   \____________________   
+     \_________________________   
    ```1001 1100 1000 1001```
 
 1. one's complement of the sum is taken:   
    ```1001 1100 1000 1001```   
-      \____________________   
+     \________________________   
    ```0110 0011 0111 0110```
 
 At the receiver's side, the data is split into 16-bit words, all of which are added together then added to the checksum. If the result isn't ```1111 1111 1111 1111``` then the packet was corrupted during transmission.  
@@ -523,7 +523,7 @@ At the receiver's side, the data is split into 16-bit words, all of which are ad
    ```1101 1110 1010 1101``` +   
    ```1011 1110 1110 1111``` +   
    ```0110 0011 0111 0110``` +   
-   \____________________   
+     \_________________________   
    ```1111 1111 1111 1111```
 
 #### d) What are the main difference of TCP and UDP protocols?
