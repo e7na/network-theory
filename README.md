@@ -649,9 +649,19 @@ While in RDT, the receiver individually acknowledges correctly received packets 
 #### ~~a)~~
 #### ~~b)~~
 #### ~~c)~~
-#### d) // TODO
-#### e) // TODO
-
+#### d) Describe how a TCP RDT at a receiver handles different events of segment arrivals.
+- If TCP receives a segment with a sequence number larger than the next expected in-order sequence number, it detects a gap in the data
+- Since TCP does not use NACKs, it re-acknowledges the last in-order byte of data it has received
+- If the TCP sender receives 3 ACKs for the same segment, it concludes that the segment following it has been lost
+- If a segment has been lost, TCP performs a fast retransmission, retransmitting the missing segment before that segment's timer expires
+#### e) Explain how the RDT of the TCP protocol can do the following: (1.) detect a gap in the data, (2.) inform the sender that a packet is lost, and (3.) conclude that a packet has been lost.
+1. A gap in the data is detected at the receiver if TCP receives a segment with a sequence number larger than the next expected sequence number
+1. 
+   - At the receiver: if the received packet is out of order, an ACK of the last in-order byte of data is transmitted.
+   - At the sender: if 3 ACKs for the same segment are received, it is concluded that the segment following it has been lost
+1. 
+   - At the receiver: when there's a gap in the data, this implies the loss of a previously awaited packet
+   - At the sender: a packet loss is concluded when the timer's up
 ### Problem 3
 #### a) What are the important fields in the TCP, UDP and IP headers.
 <table><tr><th>
