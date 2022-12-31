@@ -607,3 +607,68 @@ Only one running connection can use a single port, so the second connection can 
 
 ### ~~Problem 3~~
 ### ~~Problem 4~~
+
+## Assignment 9
+### Problem 1
+#### a) (1.) What is the drawback of the stop and wait protocols of RDT? (2.) WHat type od protocols is  used to overcome this drawback?
+1. The send and receive processes take much less time than the time of travel of a packet, leading to poor channel utilization and poor throughput.
+1. Pipelined RDT protocols as well as unreliable protocols can be used to overcome this.
+
+#### b) What is pipelining as used in reliable data transfer protocols?
+It's when a sender sends multiple packets without waiting for pending ACKs one-by-one. The sender and receiver sides may have to buffer more than one packet, and there may be multiple in-transit unacknowledged packets.
+
+#### c) Describe the selective repeat protocol, including actions taken by the sender and receiver when receiving a packet.
+Selective Repeat protocols avoid unnecessary retransmissions by having:
+- The receiver individually acknowledge correctly received packets whether or not
+they’re in-order
+- Out of order packets are buffered until any missing packets are received, at which
+point a batch of packets can be delivered in-order to the upper layer
+##### Sender Actions
+- Data received from above: if the sequence number is within the window, the data is
+packetized and sent; otherwise it is either buffered or returned
+- Timeout: timers are used to protect against lost packets, where each packet has its own
+timer. A packet is retransmitted if its timer runs out and it has yet to be acknowledged.
+- ACK received: the sender marks that packet as received if it’s in the window.
+   - If the packet's sequence number is equal to ```sendbase```, the window base is moved forward to the unacknowledged packet with the smallest sequence number
+   - If the window moves and there are untransmitted packets with sequence numbers falling within the window, these packets are transmitted
+##### Receiver Actions
+- Packet with sequence number in range ```[rcvbase, rcvbase+N-1]``` is correctly received: a selective
+ACK is returned to the sender if:
+   - The packet was not previously received, it is buffered
+   - The packet has a sequence number equal to the base of the receive window, then it is moved along with all consecutively numbered packets getting delivered to the upper layer, then the receive window is moved forward by the number of packets delivered to the upper layer.
+- Packet with sequence number in range ```[rcvbase-N, rcvbase-1]``` is recieved: a selective ACK is returned to the sender as well, because if there is no ACK for packet ```sendbase``` from the receiver to the sender:
+   - The sender will retransmit packet ```sendbase```
+   - The sender's window will never move forward
+- Otherwise: Ignore the packet
+
+#### d) What is the difference between selective repeat and go-back-N with regard to handling acknowledgments and packet loss?
+In GBN, If a packet with sequence number N is received correctly and is in-order, the receiver sends an ACK for packet N and in all other cases discards the packet and resends an ACK for the most recently received in-order packet, forcing the sender to retransmit all the packets it sent out starting from N after it times out.   
+While in RDT, the receiver individually acknowledges correctly received packets whether or not they’re in-order, and out of order packets are buffered until missing packets are received. Since each packet has its own timer, only missing packets are retransmitted individually.
+
+### Problem 2
+#### ~~a)~~
+#### ~~b)~~
+#### ~~c)~~
+#### d) // TODO
+#### e) // TODO
+
+### Problem 3
+#### a) What are the important fields in the TCP, UDP and IP headers.
+<table><tr><th>
+   TCP
+   </th><td>
+   source port, destination port, seq number, ACK number, window size, flag, checksum
+</td></tr><tr><th>
+   UDP
+   </th><td>
+   source port, destination port, checksum
+   </td></tr><tr><th>
+   IP
+   </th><td>
+   source IP, destination IP, fragmentation ID, fragmentation offset
+</td></tr></table>
+
+#### ~~b)~~
+
+#### c) Assume that hosts X and Y have a TCP connection established. Assume that the two hosts are separated by one router. Why does host X not directly use the MAC address of host Y when constructing its packet to send to Y?
+If the router’s interface in X’s LAN isn’t targeted by the packet’s DLL header, the router will discard the packet and not forward it to the other LAN. The TCP connection wouldn’t affect data-link-layer behavior, since TCP is a transport layer protocol separated from the DLL by the network layer.
