@@ -682,3 +682,43 @@ While in RDT, the receiver individually acknowledges correctly received packets 
 
 #### c) Assume that hosts X and Y have a TCP connection established. Assume that the two hosts are separated by one router. Why does host X not directly use the MAC address of host Y when constructing its packet to send to Y?
 If the router’s interface in X’s LAN isn’t targeted by the packet’s DLL header, the router will discard the packet and not forward it to the other LAN. The TCP connection wouldn’t affect data-link-layer behavior, since TCP is a transport layer protocol separated from the DLL by the network layer.
+
+## Assignment 10
+### Problem 1
+#### a) What are the application layer architectures?
+<table><tr><th>
+   client-server architecture
+   </th><td>
+   There's an always-on host, called the server, which services requests from many other hosts, called clients.
+   </td><td>
+   HTTP, SMTP, DNS
+   </td></tr><tr><th>
+   P2P
+   </th><td>
+   Has minimal (or no) reliance on dedicated/central servers, instead the application exploits direct communication between pairs of intermittently connected hosts
+   </td><td>
+   BitTorrent, IPFS
+</td></tr></table>
+
+#### b) What is (1.) a socket, (2.) a user agent?
+1. A socket is the interface between the transport and application layers within one system
+1. A user agent is the interface between the network application and the user, such as web browsers and mail clients
+
+#### c) Explain the transport services that are available to the application layer protocols.
+1. Data loss prevention:
+   - some apps require fully reliable data transmission such as file transfer
+   - others -like multimedia- are loss tolerant and don't require DLP
+1. Bandwidth:
+   - some apps must be able to transmit at a specific rate to be effective, such as media streaming
+   - other elastic apps can make use of however much bandwidth is available
+1. Timing: 
+   Interactive realtime apps, such as online games and VoIP, require timing constraints on data delivery
+
+#### d) What is the difference between a push protocol and a pull protcol? Give an example of each.
+- A push protocol is a protocol that sends out resources to their recipients directly without them needing to request them, such as SMTP
+- A pull protocol works by a request-response model, where clients request resources from servers first, then the servers respond back with the requested resource, such as HTTP
+
+#### e) What are the benefits of using web caches?
+- They reduce response times for users, since they're selected geographically to be closer than the origin server.
+- They reduce the load on the origin (usually popular/central) servers by offloading the requests going to them.
+- They provide the infrastructure for rapid content distribution networks.
