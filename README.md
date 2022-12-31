@@ -296,7 +296,7 @@ Class D: 2<sup>28</sup>
 Unicast, anycast and multicast.
 
 #### c) What is the advantage of the tunneling approach over the dual stack approach when transistioning from IPv4 to IPv6? Give an example to explain your answer.
-Tunneling maintains all the information in an IPv6 packet headerm such as the flow label, which is a new header field that dual stack transmission would strip away.
+Tunneling maintains all the information in an IPv6 packet header such as the flow label, which is a new header field that dual stack transmission would strip away.
 
 #### ~~d)~~
 ### ~~Problem 5~~
@@ -327,9 +327,27 @@ It's the union of all the shortest paths towards a destination in a graph. Since
 </td></tr></table>
 
 #### e) What is the difference between RIP and the IGRP routing protocols?
+<table><tr><th>
+   RIP
+   </th><th>
+   IGRP
+</th></tr><tr><td>
+
+   - uses hop counts as a metric
+   - updates regularly over a constant period
+   - suitable for small networks
+   </td><td>
+
+   - communicates routing info. over reliable transport
+   - only sends updates messages when link costs change
+   - uses distributed diffusing update to compute loop-free routes quickly 
+   - uses bandwidth as a metric
+   - used in large networks.
+</td></tr></table>
+
 | RIP | IGRP |
 |-----|------|
-| - uses hop counts as a metric</br> - updates regularly over a constant period</br> - suitable for small networks | - communicates routing info. over reliable transport</br> - only sends updates messages when link costs change</br> - uses distributed diffusing update to compute loop-free routes quickly </br> - uses bandwidth as a metric</br> - used in large networks. |
+|  |  |
 ### ~~Problem 2~~
 ### Problem 3
 #### ~~a)~~
@@ -376,15 +394,19 @@ It's the consolidation of responses arising from a group of hosts as feedback to
 
 #### c) What is the difference between multicast via unicast and network multicast?
 <table><tr><th>
+
    Network multicast
    </th><td>
-      - requires network-layer support for its implementation</br>
-      - relies on routers replicating each packet that needs to be sent over multiple links</br>
-      - the sending host transmits a single packet and only one copy of each packet will ever traverse a link</br>
+
+   - requires network-layer support for its implementation
+   - relies on routers replicating each packet that needs to be sent over multiple links
+   - the sending host transmits a single packet and only one copy of each packet will ever traverse a link
 </td></tr><tr><th>
+
    Multicast via unicast
    </th><td>
-      The sender uses a separate unicast connection to each of the receivers, resulting in a lot of message duplication over the network links.
+
+   The sender uses a separate unicast connection to each of the receivers, resulting in a lot of message duplication over the network links.
 </td></tr></table>
 
 #### d) What is address indirection in network multicast?
@@ -394,3 +416,78 @@ A single class D IP address is used as an identifier to a group of hosts, and a 
 - Group-shared tree:
 Finding a tree within the network that has the minimum cost and connects all the routers with attached hosts belonging to the mcast group.
 - Source-based tree: Finding the least unicast-cost tree from every host in the group to every other one. This means that routing occurs in a source-specific manner and an individual routing tree is constructed for each host.
+
+## Assignment 7
+### Problem 1
+#### ~~a)~~
+#### b) Assume hosts n and m are both in a multicast group with an ID 226.3.16.4. Assume router A doesn't know that there are hosts attached to it that have joined the multicast group. Explain how router A will use the IGMP protocol to determine if the group 226.3.16.4 has been joined by hosts attached to it.
+1. Router A will send a group-specific membership query that'll traverse along all links of the router's unicast tree and get forwarded over all router interfaces along the tree links.   
+Message content:
+   <table><tr><td>
+         0: <b>membership query - specific</b>
+      </td><td>
+         8: max response time
+      </td><td>
+         16: checksum
+      </td></tr><tr>
+         <td colspan="3">32: <b>226.3.16.4</b></td>
+      </tr>
+   </table>
+1. hosts {n, m} will each wait a random amount of time <= MRT then respond back with a membership report
+1. one of the two hosts will send out their membership report before the other due to delay randomness
+Report content:
+   <table><tr><td>
+         0: <b>membership report</b>
+      </td><td>
+         8: MRT
+      </td><td>
+         16: checksum
+      </td></tr><tr>
+         <td colspan="3">32: <b>226.3.16.4</b></td>
+      </tr>
+   </table>
+1. Since the hosts n and m aren't in the same LAN, router A will receive the membership report of the first respondent directly then forward it as-is on all its interfaces.
+1. the second host, that hasn't yet sent its membership report, will detect this message and discard its own.
+
+### Problem 2
+#### ~~a)~~
+#### ~~b)~~
+#### c) Suppose that the routers are multicast capable. Suppose that a group-shared center-based protocol is used to build the routing tree, with L as the center of the tree. Using your answer in part (b): (1.) Explain how P and T will join the multicast group. (2.) Draw the tree after P and T join the multicast group.
+1. After selecting L as the center node:
+   1. P sends a membership report as a unicast message to the center node.
+   1. The message arrives at L, and the route it takes L-O-Q-P is considered the initial routing tree.
+   1. T sends its join message
+   1. the message is detected by router O, which adds the branch O-R-T to the multicast tree, resulting in the tree shown below.
+1.  
+```mermaid
+flowchart RL
+   L---O
+   P---Q
+   T---R
+   Q---O
+   R---O
+``` 
+### ~~Problem 3~~
+### Problem 4
+#### a) Which of the following multicast routing protocols uses group-shared trees and which uses source-based trees? DVRMP, MOSPF, CBT.
+| group-shared | source based |
+|--|--|
+| CBT | DVRMP & MOSPF |
+
+#### b) What is the advantage if using two different multicast distribution scenarios in the PIM protocol?
+Sparse and dense modes are optimized for the assumptions that:   
+<table><tr><th>
+   sparse
+   </th><td>
+   the group members will be distributed throughout the network with most LANs and subnets not wanting any multicast traffic.traverse a link
+</td></tr><tr><th>
+   dense
+   </th><td>
+   the group members will be packed densely throughout the network with most LANs and subnets wanting any multicast packet transmitted.
+</td></tr></table>
+
+#### c) What is third-party dependency in BGMP protocol? What is the disadvantage of the third-party dependency?
+BGMP could choose a center router with no multicast hosts in its AS, causing an unnecessary burden on that AS, as well as subjecting the mcast group to performance dependencies on other AS's outside of the group's control.
+
+#### d) Why is tunneling used in multicast routing in the Internet?
+To create virtual networks of multicast capable routers on top of physical networks that contain a mix of multicast and unicast devices, because a small fraction of internet routers are multicast capable.
