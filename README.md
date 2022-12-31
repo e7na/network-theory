@@ -491,3 +491,85 @@ BGMP could choose a center router with no multicast hosts in its AS, causing an 
 
 #### d) Why is tunneling used in multicast routing in the Internet?
 To create virtual networks of multicast capable routers on top of physical networks that contain a mix of multicast and unicast devices, because a small fraction of internet routers are multicast capable.
+
+## Assignment 8
+### Problem 1
+#### a) What are the characteristics of the UDP transport protocoll?
+- unreliable
+- connectionless
+- stateless
+- unregulated
+- uses checksums for error detection
+
+#### b) Why does UDP protocol use error checking?
+Since it's unreliable, it needs error detection to avoid delivering corrupted data to the application layer.
+
+#### c) Show an example of how the checksum of a UDP datagram is calculated.
+suppose the data field is ```1111 1110 1110 1101 1101 1110 1010 1101 1011 1110 1110 1111```
+1. the data is split into 16-bit words, each of which is added together:  
+   ```1111 1110 1110 1101``` +  
+   ```1101 1110 1010 1101``` +   
+   ```1011 1110 1110 1111``` +   
+   \____________________   
+   ```1001 1100 1000 1001```
+
+1. one's complement of the sum is taken:   
+   ```1001 1100 1000 1001```   
+      \____________________   
+   ```0110 0011 0111 0110```
+
+At the receiver's side, the data is split into 16-bit words, all of which are added together then added to the checksum. If the result isn't ```1111 1111 1111 1111``` then the packet was corrupted during transmission.  
+   ```1111 1110 1110 1101``` +  
+   ```1101 1110 1010 1101``` +   
+   ```1011 1110 1110 1111``` +   
+   ```0110 0011 0111 0110``` +   
+   \____________________   
+   ```1111 1111 1111 1111```
+
+#### d) What are the main difference of TCP and UDP protocols?
+<table><tr><th>
+   TCP
+   </th><td>
+   Connection-oriented
+   </td><td>
+   Congestion controlled (regulated)
+   </td><td>
+   Advanced error control
+   </td><td>
+   large headers
+   </td><td>
+   3-way handshake
+</td></tr><tr><th>
+   UDP
+   </th><td>
+   Connectionless
+   </td><td>
+   unregulated
+   </td><td>
+   uses checksums for error detection only
+   </td><td>
+   small 8-byte headers
+   </td><td>
+   no handshake
+</td></tr></table>
+
+#### e) What are the main function calls used in the design of reliable transfer protocols?
+```
+rdt_send(data) - rdt_rcv(packet) - mk_pkt(pkt, data) -   
+extract(pkt, data) - udt_send(pkt) - deliver_data(data) -   
+is_ack(pkt) - is_nack(pkt)
+```
+
+### Problem 2
+#### a) Explain how the multiplexing and demultiplexing will be done at each node.
+The transport protocol gathers application data and splits it into segments each enveloped with the source and destination port numbers, then passes them down to the network layer multiplexing them in the process.   
+At the receiver, the transport layer headers are examined to determine the source port, and the source IP - source port combination uniquely identifies the origin of each segment allowing for data demultiplexing.
+
+#### b) Can the three clients use the same source port number? How will the server differentiate between the data coming from the clients?
+Yes. The receiver identifies the segments by the source-IP:source-port pair, where IP addresses are unique to each client.
+
+#### c) If client B wants to initiate a second FTP connection to the same server, is there a case where the client will be allowed to use the same source port it used in the first connection? Explain.
+Only one running connection can use a single port, so the second connection can only use the same port in the case that the first connection was terminated<!-- or if the transport layer employs ALPN (RFC8833)-->.
+
+### ~~Problem 3~~
+### ~~Problem 4~~
