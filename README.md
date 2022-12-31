@@ -393,7 +393,7 @@ It's the union of all the shortest paths towards a destination in a graph. Since
 #### c) Consider link cost between B and C is changed from 3 to 50:
 ##### ~~(1.) From the distance tables in (b), write down the new distance tables at A and B~~
 ##### (2.) Explain how the count-to-infinity problem will affect A and B.
-A believes that the optimal route to C is going through B, while B believes that the optimal route to C is through A. So when one of the two hosts tries to send a packet to C, the other will transmit it back to sender and update the path cost adding 1 to it, resulting in a single packet being forwarded at least 4<!--(AC - BC) / AB = (7 - 3) / 1 = 4--> times in a loop before the path is updated with the correct link costs, and the packet reaches its destination.
+A believes that the optimal route to C is going through B, while B believes that the optimal route to C is through A. So when one of the two hosts tries to send a packet to C, the other will transmit it back to sender and update the path cost adding 1 to it, resulting in a single packet being forwarded at least <!--(AC - BC) / AB = (7 - 3) / 1 = -->4 times in a loop before the path is updated with the correct link costs, and the packet reaches its destination.
 ##### (3.) Explain how to solve the count-to-infinity problem in A and B.
 Using poisoned reverse: when A attempts to route through B to get to C, then B attempts to route through A to get to C, A will advertise to B that the cost to C through it is infinity, forcing B to send directly to C advertising the new C cost leading to the appropriate distance vector updates in each node.
 
@@ -432,7 +432,6 @@ It's the consolidation of responses arising from a group of hosts as feedback to
 
 #### c) What is the difference between multicast via unicast and network multicast?
 <table><tr><th>
-
    Network multicast
    </th><td>
 
@@ -440,7 +439,6 @@ It's the consolidation of responses arising from a group of hosts as feedback to
    - relies on routers replicating each packet that needs to be sent over multiple links
    - the sending host transmits a single packet and only one copy of each packet will ever traverse a link
 </td></tr><tr><th>
-
    Multicast via unicast
    </th><td>
 
@@ -512,12 +510,12 @@ flowchart RL
 |--|--|
 | CBT | DVRMP & MOSPF |
 
-#### b) What is the advantage if using two different multicast distribution scenarios in the PIM protocol?
+#### b) What is the advantage of using two different multicast distribution scenarios in the PIM protocol?
 Sparse and dense modes are optimized for the assumptions that:   
 <table><tr><th>
    sparse
    </th><td>
-   the group members will be distributed throughout the network with most LANs and subnets not wanting any multicast traffic.traverse a link
+   the group members will be distributed throughout the network with most LANs and subnets not wanting any multicast traffic.
 </td></tr><tr><th>
    dense
    </th><td>
@@ -532,7 +530,7 @@ To create virtual networks of multicast capable routers on top of physical netwo
 
 ## Assignment 8
 ### Problem 1
-#### a) What are the characteristics of the UDP transport protocoll?
+#### a) What are the characteristics of the UDP transport protocol?
 - unreliable
 - connectionless
 - stateless
@@ -592,11 +590,9 @@ At the receiver's side, the data is split into 16-bit words, all of which are ad
 </td></tr></table>
 
 #### e) What are the main function calls used in the design of reliable transfer protocols?
-```
-rdt_send(data) - rdt_rcv(packet) - mk_pkt(pkt, data) -   
-extract(pkt, data) - udt_send(pkt) - deliver_data(data) -   
-is_ack(pkt) - is_nack(pkt)
-```
+```rdt_send(data)``` - ```rdt_rcv(packet)``` - ```mk_pkt(pkt, data)``` -   
+```extract(pkt, data)``` - ```udt_send(pkt)``` - ```deliver_data(data)``` -   
+```is_ack(pkt)``` - ```is_nack(pkt)```
 
 ### Problem 2
 #### a) Explain how the multiplexing and demultiplexing will be done at each node.
