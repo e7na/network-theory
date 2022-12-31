@@ -40,7 +40,7 @@ Computing devices are separated into desktop computers, mobile devices such as p
 #### d) What is the purpose of protocols, and what are the general functions they perform?
 Protocols ensure successful communication by defining the format and the order of messages, as well as the actions taken on message transmission or receipt.
 
-#### e) What si the difference between circuit switching and packet switching?
+#### e) What is the difference between circuit switching and packet switching?
 - Circuit switching:
    - dedicated lines between nodes
    - data is sent as a continuous stream
@@ -183,9 +183,9 @@ It's a connectionless service that provides best effort delivery of frames, and 
       - Or recognize retransmissions
 #### e) (1.) Why does Ethernet use Manchester encoding? (2.) If the bit stream is [11000110], draw a sketch to show how this stream is encoded.
 1. It ensures that sender and receiver clocks stay in sync.
-1. Baseband: 
-![](README.d/ass3-prob2-baseband.png)
-Manchester encoding:
+1. Baseband:   
+![](README.d/ass3-prob2-baseband.png)   
+Manchester encoding:   
 ![](README.d/ass3-prob2-manchester.png)
 ### Problem 3
 #### a) What is the difference between an infrastructure network and an ad-hoc network?
