@@ -16,15 +16,26 @@ Computing devices are separated into desktop computers, mobile devices such as p
    - They're related in the sense that every distributed system is a network with special abstracting software on it.
 
 #### c) Describe transmission type in networks.
+<table border="0"><tr><td>
+
 - Broadcast:
    - single channel, shared by all nodes
    - data is sent as packets
    - supports single recipient, multicast and broadcast
    - intended recipients are indicated in the packet's address field
+</td><td>
+
+![](README.d/2022-12-31-13-50-41.png)
+</td></tr><td>
+
 - Point-to-point:
    - connection between individual node pairs
    - a packet might go through intermediate nodes before reaching destination
    - there could be multiple routes for a single packet
+</td><td>
+
+![](README.d/2022-12-31-13-50-09.png)
+</td></tr></table>
 
 #### d) What is the purpose of protocols, and what are the general functions they perform?
 Protocols ensure successful communication by defining the format and the order of messages, as well as the actions taken on message transmission or receipt.
